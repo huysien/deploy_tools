@@ -1,6 +1,6 @@
-# Firebase Release Tool
+# Deploy Tools
 
-CLI tool để làm việc với Firebase App Distribution - lấy thông tin release, tính version code và gửi notification.
+Bộ công cụ CLI hỗ trợ CI/CD deployment. Hiện tại bao gồm các tools cho Firebase App Distribution.
 
 ## Cài đặt
 

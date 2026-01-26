@@ -1,7 +1,7 @@
 {
-  "name": "firebase-release-tool",
+  "name": "deploy-tools",
   "version": "1.0.0",
-  "description": "CLI tool to fetch Firebase App Distribution release info",
+  "description": "CLI tools for CI/CD deployment",
   "bin": {
     "next-version-code": "./bin/next-version-code.js",
     "notify-slack": "./bin/notify-slack.js",

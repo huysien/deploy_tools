@@ -1,20 +1,20 @@
 # Deploy Tools
 
-Bộ công cụ CLI hỗ trợ CI/CD deployment. Hiện tại bao gồm các tools cho Firebase App Distribution.
+CLI toolkit for CI/CD deployment. Currently includes tools for Firebase App Distribution.
 
-## Cài đặt
+## Installation
 
 ```bash
 npm install
-npm link  # để sử dụng global commands
+npm link  # to use global commands
 ```
 
-## Yêu cầu
+## Requirements
 
 - Node.js >= 18
-- Service Account JSON với quyền Firebase App Distribution
+- Service Account JSON with Firebase App Distribution permissions
 
-Có thể set credentials qua biến môi trường:
+You can set credentials via environment variable:
 
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
@@ -24,7 +24,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
 
 ### next-version-code
 
-Lấy version code tiếp theo (max version code + 1) từ Firebase App Distribution.
+Get the next version code (max version code + 1) from Firebase App Distribution.
 
 ```bash
 next-version-code \
@@ -40,15 +40,15 @@ next-version-code \
 | `--project` | Yes | Google Cloud Project Number |
 | `--app-id` | Yes | Firebase App ID (e.g. `1:xxx:android:xxx`) |
 | `--credentials` | No | Path to service account JSON (defaults to `GOOGLE_APPLICATION_CREDENTIALS`) |
-| `--initial-version` | No | Version code khi chưa có release nào (default: `1`) |
+| `--initial-version` | No | Version code when no releases exist (default: `1`) |
 
-**Output:** In ra stdout version code tiếp theo (e.g. `10001`)
+**Output:** Prints the next version code to stdout (e.g. `10001`)
 
 ---
 
 ### notify-slack
 
-Gửi thông tin release đến Slack webhook.
+Send release information to a Slack webhook.
 
 ```bash
 notify-slack \
@@ -76,9 +76,9 @@ notify-slack \
 | `--build_user` | Yes | User who triggered the build |
 | `--credentials` | No | Path to service account JSON |
 
-*Ít nhất một trong `--android-app-id` hoặc `--ios-app-id` phải được cung cấp.
+*At least one of `--android-app-id` or `--ios-app-id` must be provided.
 
-**Payload gửi đến webhook:**
+**Payload sent to webhook:**
 
 ```json
 {
@@ -98,13 +98,13 @@ notify-slack \
 }
 ```
 
-> **Note:** Các URL sẽ là empty string `""` nếu platform tương ứng không được cung cấp.
+> **Note:** URLs will be empty string `""` if the corresponding platform is not provided.
 
 ---
 
 ### notify-google-chat
 
-Gửi thông tin release đến Google Chat webhook với card format.
+Send release information to a Google Chat webhook with card format.
 
 ```bash
 notify-google-chat \
@@ -119,28 +119,28 @@ notify-google-chat \
   [--credentials <path>]
 ```
 
-**Options:** Tương tự `notify-slack`
+**Options:** Same as `notify-slack`
 
-**Output:** Google Chat card với:
+**Output:** Google Chat card with:
 - Header: version name/code, branch, environment
 - Release info: commit, build user
-- Download buttons: Install/Download links cho iOS/Android (chỉ hiển thị platform được cung cấp)
+- Download buttons: Install/Download links for iOS/Android (only shows provided platforms)
 - Firebase Console links
 - Release notes
 
 ---
 
-## Ví dụ sử dụng trong CI/CD
+## CI/CD Usage Example
 
 ```bash
-# Lấy next version code cho Android
+# Get next version code for Android
 VERSION_CODE=$(next-version-code \
   --project 123456789 \
   --app-id 1:123456789:android:abc123)
 
-# Build app với version code...
+# Build app with version code...
 
-# Gửi notification sau khi upload
+# Send notification after upload
 notify-google-chat \
   --project 123456789 \
   --android-app-id 1:123456789:android:abc123 \

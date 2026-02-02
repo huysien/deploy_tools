@@ -124,9 +124,8 @@ notify-google-chat \
 **Output:** Google Chat card with:
 - Header: version name/code, branch, environment
 - Release info: commit, build user
-- Download buttons: Install/Download links for iOS/Android (only shows provided platforms)
-- Firebase Console links
-- Release notes
+- References: Firebase Console, Install, and Download links per platform (only shows provided platforms)
+- Release notes (section omitted when empty)
 
 ---
 

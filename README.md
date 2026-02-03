@@ -116,12 +116,17 @@ notify-google-chat \
   --build_user <user> \
   [--android-app-id <id>] \
   [--ios-app-id <id>] \
-  [--credentials <path>]
+  [--credentials <path>] \
+  [--mentions <comma-separated user IDs or emails, or "all">]
 ```
 
-**Options:** Same as `notify-slack`
+**Options:** Same as `notify-slack`, plus:
+| Option | Required | Description |
+|--------|----------|-------------|
+| `--mentions` | No | Comma-separated user IDs or emails to @mention; use `all` to mention everyone in the space |
 
 **Output:** Google Chat card with:
+- When `--mentions` is set: a text line with @mentions (so mentioned users get notified), then the card below
 - Header: version name/code, branch, environment
 - Release info: commit, build user
 - References: Firebase Console, Install, and Download links per platform (only shows provided platforms)

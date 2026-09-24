@@ -12,5 +12,8 @@
     "axios": "^1.10.0",
     "google-auth-library": "^10.1.0",
     "yargs": "^18.0.0"
+  },
+  "scripts": {
+    "test": "node --test"
   }
 }

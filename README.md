@@ -24,7 +24,9 @@ export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
 
 ### next-version-code
 
-Get the next version code (max version code + 1) from Firebase App Distribution.
+Get the next version code (max version code + 1) from Firebase App Distribution. One request for the
+newest 100 releases (the API maximum page size): since every build number is "max + 1", the max is always
+among the newest releases.
 
 ```bash
 next-version-code \
@@ -40,9 +42,11 @@ next-version-code \
 | `--project` | Yes | Google Cloud Project Number |
 | `--app-id` | Yes | Firebase App ID (e.g. `1:xxx:android:xxx`) |
 | `--credentials` | No | Path to service account JSON (defaults to `GOOGLE_APPLICATION_CREDENTIALS`) |
-| `--initial-version` | No | Version code when no releases exist (default: `1`) |
+| `--initial-version` | No | Version code when the app has no releases at all (default: `1`) |
 
-**Output:** Prints the next version code to stdout (e.g. `10001`)
+**Output:** Prints the next version code to stdout (e.g. `10001`). If releases cannot be read (auth,
+permission, network), prints the reason to stderr and exits `1` — it never falls back to
+`--initial-version`, which would ship a build numbered below what testers already have.
 
 ---
 
@@ -75,6 +79,8 @@ notify-slack \
 | `--commit` | Yes | Git commit hash |
 | `--build_user` | Yes | User who triggered the build |
 | `--credentials` | No | Path to service account JSON |
+| `--release-note` | No | Release note to show; defaults to the note stored on the Firebase release |
+| `--build-version` | No | Show the release with exactly this build version (versionCode / CFBundleVersion) instead of the newest one; retried briefly, then fails if missing |
 
 *At least one of `--android-app-id` or `--ios-app-id` must be provided.
 
@@ -122,7 +128,7 @@ notify-google-chat \
 **Options:** Same as `notify-slack`
 
 **Output:** Google Chat card with:
-- Header: version name/code, branch, environment
+- Header: version name/code, branch, environment. When both platforms are given and their versions differ, each one is named (`Android 1.0.0 (5) · iOS 1.1.0 (5)`)
 - Release info: commit, build user
 - References: Firebase Console, Install, and Download links per platform (only shows provided platforms)
 - Release notes (section omitted when empty)
@@ -149,6 +155,12 @@ notify-google-chat \
   --webhook "https://chat.googleapis.com/v1/spaces/xxx/messages?key=xxx" \
   --commit "abc1234" \
   --build_user "CI Bot"
+```
+
+## Development
+
+```bash
+npm test   # node:test — Google Chat card content per platform combination
 ```
 
 ## License
